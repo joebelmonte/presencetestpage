@@ -134,6 +134,9 @@ function initializePresence() {
       window.open(
         "https://www.glance.net/agentjoin/AgentView.aspx?Wait=1&SessionKey=" +
           visitorid +
+          "&name=Testy McTestface" +
+          "&email=testy@test.com" +
+          "&phone=781-858-3236" +
           "&partnerid=" +
           partnerid +
           "&partneruserid=" +
