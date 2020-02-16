@@ -1,3 +1,5 @@
+console.log("welcome to multi presence");
+
 function $$(id) {
   return document.getElementById(id);
 }
