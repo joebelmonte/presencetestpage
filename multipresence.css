@@ -35,6 +35,17 @@ table {
   height: 25px;
 }
 
+#AddVisitor {
+  background-color: #2ecc71;
+  border-style: none;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  width: 120px;
+  margin-top: 20px;
+  height: 25px;
+}
+
 #loader {
   border: 16px solid #f3f3f3;
   border-radius: 50%;

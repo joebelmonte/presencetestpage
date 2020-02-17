@@ -3,7 +3,7 @@
     <head>
       <meta charset="utf-8" />
       <title>Presence Test Page</title>
-      <link rel="stylesheet" href="/presence-testing/presence.css" />
+      <link rel="stylesheet" href="/presence-testing/multipresence.css" />
       <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-sha256.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/enc-base64-min.js"></script>
       <script type="text/javascript">
@@ -14,7 +14,7 @@
       <script>
         document.addEventListener("DOMContentLoaded", function() {
           var tag = document.createElement("script");
-          tag.src = "/presence-testing/presence.js";
+          tag.src = "/presence-testing/multipresence.js";
           document.getElementsByTagName("head")[0].appendChild(tag);
           if (window.location.protocol === "http:")
             window.location.protocol = "https:";
@@ -27,37 +27,40 @@
 
       <div id="glanceUI">
         <div id="login-key">
-          <p>PartnerID/Group Number:</p>
-          <input
-            type="text"
-            name="PartnerID"
-            placeholder="PartnerID/Group Number"
-            id="PartnerID"
-          />
-          <p>API Key/Private Key:</p>
-          <input type="text" name="APIKey" placeholder="APIKey" id="APIKey" />
-          <p>Partner User ID:</p>
-          <input
-            type="text"
-            name="PartnerUserID"
-            placeholder="PartnerUserID"
-            id="PartnerUserID"
-          />
-          <p>Timeout (seconds):</p>
-          <input
-            type="text"
-            name="Timeout"
-            placeholder="Timeout"
-            id="Timeout"
-            value="60"
-          /><br />
-          <p>Visitor ID:</p>
-          <input
-            type="text"
-            name="visitorID"
-            placeholder="Visitor ID"
-            id="visitorID"
-          />
+          <div id="inputs">
+            <p>PartnerID/Group Number:</p>
+            <input
+              type="text"
+              name="PartnerID"
+              placeholder="PartnerID/Group Number"
+              id="PartnerID"
+            />
+            <p>API Key/Private Key:</p>
+            <input type="text" name="APIKey" placeholder="APIKey" id="APIKey" />
+            <p>Partner User ID:</p>
+            <input
+              type="text"
+              name="PartnerUserID"
+              placeholder="PartnerUserID"
+              id="PartnerUserID"
+            />
+            <p>Timeout (seconds):</p>
+            <input
+              type="text"
+              name="Timeout"
+              placeholder="Timeout"
+              id="Timeout"
+              value="60"
+            />
+            <p>Visitor ID:</p>
+            <input
+              type="text"
+              name="visitorID"
+              placeholder="Visitor ID"
+              class="visitorID"
+            />
+          </div>
+          <button id="AddVisitor">Add Visitor</button>
           <button id="SubmitButton">Submit</button>
         </div>
         <div id="presence-button">

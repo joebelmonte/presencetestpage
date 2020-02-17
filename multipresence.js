@@ -251,3 +251,24 @@ document.getElementById("SubmitButton").addEventListener("click", function() {
     initializePresence();
   }, 1000);
 });
+
+// Below this line controls the html of the multi-presence page
+
+const newVisitor = `
+<p>Visitor ID:</p>
+<input
+  type="text"
+  name="visitorID"
+  placeholder="Visitor ID"
+  class="visitorID"
+/>
+`;
+
+function addVisitor() {
+  document.getElementById("inputs").innerHTML += newVisitor;
+}
+
+document.getElementById("AddVisitor").addEventListener("click", function() {
+  console.log("AddVisitor button clicked ", event);
+  addVisitor();
+});
