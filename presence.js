@@ -245,9 +245,6 @@ document.getElementById("SubmitButton").addEventListener("click", function() {
   document.getElementsByTagName("head")[0].appendChild(presenceAgentTag);
   document.getElementById("login-key").style.display = "none";
   document.getElementById("presence-button").style.display = "block";
-  // setTimeout(function() {
-  //   initializePresence();
-  // }, 1000);
   document.getElementById("glance-cobrowse").onload = event => {
     initializePresence();
   };
