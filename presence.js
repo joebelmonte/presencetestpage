@@ -39,6 +39,12 @@ function initializePresence() {
       visitorid: visitorid
     });
 
+    presenceagent.onvisitorsessionstart = function() {
+      console.log("received session start event");
+      var visitorid = $$("visitorID").value;
+      launchSession(visitorid);
+    };
+
     // Setup event handlers
     presenceagent.onvisitorconn = function(e) {
       // visitor is connecting via websocket and can be signaled
@@ -73,12 +79,9 @@ function initializePresence() {
       // If visitor accepts terms, then listen for the session to start.
       // Once the session starts on the visitor side, launch the session on the agent side.
       if (e.status === "accepted") {
-        presenceagent.onvisitorsessionstart = function() {
-          console.log("i heard the session start");
-          var visitorid = $$("visitorID").value;
-          launchSession(visitorid);
-          console.log("the visitor id is ", visitorid);
-        };
+        console.log("The visitor accepted the terms and conditions.")
+          // var visitorid = $$("visitorID").value;  MOVING THIS CODE
+          // launchSession(visitorid);
       }
       // If the visitor declines the session, show an alert for the agent.
       if (e.status === "declined") {
@@ -181,9 +184,11 @@ function initializePresence() {
           visitordata
         );
         if (visitordata.visitorid) {
+          // Show the terms and conditions to the visitor
           showTerms(visitordata);
           document.getElementById("cobrowsebutton").style.display = "none";
           document.getElementById("waitingforcustomer").style.display = "block";
+          // If/when the session starts, join it.
         }
         if (!visitordata.visitorid) {
           document.getElementById("presence-button").style.display = "none";
