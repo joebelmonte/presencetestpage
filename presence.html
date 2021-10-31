@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <title>Presence Test Page</title>
-  <link rel="stylesheet" href="/presence-testing/presence.css">
+  <link rel="stylesheet" href="./presence-testing/presence.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-sha256.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/enc-base64-min.js"></script>
   <script type="text/javascript">
@@ -14,7 +14,7 @@
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       var tag = document.createElement("script");
-      tag.src = "/presence-testing/presence.js";
+      tag.src = "./presence-testing/presence.js";
       document.getElementsByTagName("head")[0].appendChild(tag);
       if (window.location.protocol === "http:") window.location.protocol = "https:";
     });
@@ -22,7 +22,10 @@
 </head>
 
 <body>
-  <h2>Presence Test Page</h2>
+  <h2 id="title">Presence Test Page</h2>
+  <div id="about-link">
+    <a href="https://github.com/joebelmonte/presencetestpage" target="_blank">About</a>
+  </div>
 
   <div id="glanceUI">
     <div id="login-key">
@@ -30,26 +33,27 @@
       <p>API Key/Private Key: </p><input type="text" name="APIKey" placeholder="APIKey" id="APIKey">
       <p>Partner User ID: </p><input type="text" name="PartnerUserID" placeholder="PartnerUserID" id="PartnerUserID">
       <p>Visitor ID: </p><input type="text" name="visitorID" placeholder="Visitor ID" id="visitorID">
-      <p>Timeout (seconds): </p> <input type="text" name="Timeout" placeholder="Timeout" id="Timeout" value="60"><br>
+      <p>Timeout (seconds): </p> <input type="text" name="Timeout" placeholder="Timeout" id="Timeout" value="3600"><br>
       <button id="SubmitButton">Submit</button>
     </div>
     <div id="presence-button">
-      <button id="cobrowsebutton">Join Cobrowse Session</button>
+      <button id="cobrowsebutton">Agent Start Cobrowse Session</button>
       <div id="waitingforcustomer">
         <div id="loader"></div>
         <p>Waiting for customer...</p>
         <button id="presencecancel">Cancel</button>
       </div>
-      <p>Visitor URL: <span id="visitorurl"></span></p>
-      <p>Visitor Browser: <span id="visitorbrowser"></span></p>
-      <p>Visitor Browser Version: <span id="visitorbrowserversion"></span></p>
-      <p>Visitor Platform: <span id="visitorplatform"></span></p>
+      <div id="vistor-info">
+        <p>Visitor URL: <span id="visitorurl"></span></p>
+        <p>Visitor Browser: <span id="visitorbrowser"></span></p>
+        <p>Visitor Browser Version: <span id="visitorbrowserversion"></span></p>
+        <p>Visitor Platform: <span id="visitorplatform"></span></p>
+    </div>
     </div>
   </div>
   <div id="session-key-join">
     <input type="text" name="FirstName" placeholder="Session Key" id="session-key">
-    <button id="join-with-key">Join</button>
-    <button id="session-key-join-cancel">Cancel</button></div>
+    <button id="join-with-key">Join With Key</button>
   </div>
   <div id="open-options">
     <p>Open session in:</p>
@@ -58,6 +62,12 @@
       <option value="panorama">Panorama</option>
     </select>
   </div>
+  <script>
+    // Change backgroundcolor if on dev
+    if (window.location.href.includes("dev")) {
+      document.body.style.backgroundColor = "#7bed9f"
+    }
+</script>
 </body>
 
 </html>

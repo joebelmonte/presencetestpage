@@ -3,6 +3,14 @@ body {
   font-size: 90%;
 }
 
+#title {
+  margin-bottom: 10px;
+}
+
+#about-link {
+  margin-bottom: 10px;
+}
+
 #gbox {
   background-color: #dbdbdb;
   border-radius: 5px;
@@ -21,7 +29,8 @@ table {
   border-radius: 4px;
   color: white;
   font-weight: bold;
-  width: 120px;
+  width: 150px;
+  margin-bottom: 15px;
 }
 
 #SubmitButton {
@@ -68,14 +77,6 @@ table {
   }
 }
 
-#presence-button {
-  display: none;
-}
-
-#session-key-join {
-  display: none;
-}
-
-#waitingforcustomer {
+#presence-button, #vistor-info, #session-key-join, #waitingforcustomer {
   display: none;
 }

@@ -39,19 +39,14 @@ function initializePresence() {
       visitorid: visitorid
     });
 
-    presenceagent.onvisitorsessionstart = function() {
-      console.log("received session start event");
-      var visitorid = $$("visitorID").value;
-      launchSession(visitorid);
-    };
-
     // Setup event handlers
     presenceagent.onvisitorconn = function(e) {
       // visitor is connecting via websocket and can be signaled
-      // display a "connected" status, e.g. light up a cobrowse button
       console.log("in onvisitorconn and e is ", e);
-      // Toggle the color of the button to blue/orange when visitor logs in or out
       if (e.connected) {
+        // Toggle the color of the button to blue/orange when visitor logs in or out
+        // Show information about the visitor's browser/os
+        document.getElementById("vistor-info").style.display = "block";
         document.getElementById("cobrowsebutton").style.background = "#F86717";
       }
       if (!e.connected) {
@@ -61,11 +56,13 @@ function initializePresence() {
         document.getElementById("visitorbrowser").innerHTML = "";
         document.getElementById("visitorbrowserversion").innerHTML = "";
         document.getElementById("visitorplatform").innerHTML = "";
+        document.getElementById("vistor-info").style.display = "none";
       }
     };
+
     presenceagent.onpresence = function(e) {
-      // visitor posted new presence information
-      // display presence information, e.g. new e.url
+      // Visitor posted new presence information
+      // Display presence information, e.g. new e.url
       console.log("in onpresence and e is ", e);
       document.getElementById("visitorurl").innerHTML = e.url;
       document.getElementById("visitorbrowser").innerHTML = e.browser;
@@ -73,20 +70,18 @@ function initializePresence() {
       document.getElementById("visitorplatform").innerHTML = e.platform;
     };
 
-    // listen for when the showTerms is displayed on the visitor side
+    // Listen for when the showTerms is displayed on the visitor side
     presenceagent.onterms = function(e) {
       console.log("in onterms and e is ", e);
-      // If visitor accepts terms, then listen for the session to start.
-      // Once the session starts on the visitor side, launch the session on the agent side.
       if (e.status === "accepted") {
+        // Not currently doing anything if the visitor accepts the terms and conditions
         console.log("The visitor accepted the terms and conditions.")
-          // var visitorid = $$("visitorID").value;  MOVING THIS CODE
-          // launchSession(visitorid);
       }
       // If the visitor declines the session, show an alert for the agent.
       if (e.status === "declined") {
         console.log("visitor declined session");
         alert("Visitor declined session... =(");
+        presenceCancelled()
       }
     };
     // Connect the agent so it can receive the above events
@@ -106,7 +101,14 @@ function initializePresence() {
         console.log("lookupVisitor not successful and reason is ", reason);
       }
     });
+
+    presenceagent.onvisitorsessionend = function() {
+      console.log("In onvisitorsessionend.")
+      // Once the session ends, clear the event listener for session start.
+      presenceagent.onvisitorsessionstart = null
+    }
   }
+
 
   GLANCE.Authorization.authorize({
     service: "presence",
@@ -116,7 +118,7 @@ function initializePresence() {
       loginkey: GenerateLoginKey()
     },
     groupid: $$("PartnerID").value,
-    duration: 20,
+    duration: 120,
     onsuccess: showpresence,
     onfail: function(reason) {
       console.log("authorization failed and the reason is ", reason);
@@ -165,6 +167,13 @@ function initializePresence() {
   }
 
   function showTerms(visitordata) {
+    // Add the event listener for the session start and launch the session if you hear it.
+    presenceagent.onvisitorsessionstart = function() {
+      console.log("received session start event");
+      var visitorid = $$("visitorID").value;
+      launchSession(visitorid);
+    };
+    // Show the terms and conditions on the visitor side.  Pass the visitor ID as the session key.
     presenceagent.invokeVisitor({
       func: "GLANCE.Cobrowse.Visitor.showTerms",
       args: {
@@ -175,8 +184,7 @@ function initializePresence() {
 
   function cobrowseButtonClicked() {
     console.log("the cobrowse button was clicked!");
-    // Need to check if the visitor is connected.  If yes, then launch a cobrowse Session
-    // If not, then change the button to accept a code
+    // Need to check if the visitor is connected.  If yes, then show the terms and conditions
     presenceagent.lookupVisitor({
       onsuccess: function(visitordata) {
         console.log(
@@ -188,29 +196,27 @@ function initializePresence() {
           showTerms(visitordata);
           document.getElementById("cobrowsebutton").style.display = "none";
           document.getElementById("waitingforcustomer").style.display = "block";
-          // If/when the session starts, join it.
+
         }
         if (!visitordata.visitorid) {
-          document.getElementById("presence-button").style.display = "none";
-          document.getElementById("session-key-join").style.display = "block";
+          // If the visitor is not present, alert the user.
+          alert("Visitor not present. Try joining with the session key.")
         }
       },
       onfail: function(reason) {
         console.log("lookupVisitor not successful and reason is ", reason);
+        alert("Lookup failed.")
       }
     });
   }
 
   function presenceCancelled() {
     console.log("presence is cancelled");
+    // Remove the event listener if the visitor declines the terms and conditions
+    presenceagent.onvisitorsessionstart = null
+    // Reset the UI
     document.getElementById("cobrowsebutton").style.display = "block";
     document.getElementById("waitingforcustomer").style.display = "none";
-  }
-
-  function sessionKeyJoinCancel() {
-    console.log("in sessionKeyJoinCancel");
-    document.getElementById("presence-button").style.display = "block";
-    document.getElementById("session-key-join").style.display = "none";
   }
 
   document
@@ -228,10 +234,6 @@ function initializePresence() {
   document
     .getElementById("presencecancel")
     .addEventListener("click", presenceCancelled);
-
-  document
-    .getElementById("session-key-join-cancel")
-    .addEventListener("click", sessionKeyJoinCancel);
 }
 
 document.getElementById("SubmitButton").addEventListener("click", function() {
@@ -250,6 +252,7 @@ document.getElementById("SubmitButton").addEventListener("click", function() {
   document.getElementsByTagName("head")[0].appendChild(presenceAgentTag);
   document.getElementById("login-key").style.display = "none";
   document.getElementById("presence-button").style.display = "block";
+  document.getElementById("session-key-join").style.display = "block";
   document.getElementById("glance-cobrowse").onload = event => {
     initializePresence();
   };
