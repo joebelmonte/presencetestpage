@@ -81,6 +81,7 @@ function initializePresence() {
       if (e.status === "declined") {
         console.log("visitor declined session");
         alert("Visitor declined session... =(");
+        // if the visitor declines the terms and conditions
         presenceCancelled()
       }
     };
@@ -212,7 +213,7 @@ function initializePresence() {
 
   function presenceCancelled() {
     console.log("presence is cancelled");
-    // Remove the event listener if the visitor declines the terms and conditions
+    // Remove the event listener
     presenceagent.onvisitorsessionstart = null
     // Reset the UI
     document.getElementById("cobrowsebutton").style.display = "block";
