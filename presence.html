@@ -30,7 +30,11 @@
   <div id="glanceUI">
     <div id="login-key">
       <p>PartnerID/Group Number: </p><input type="text" name="PartnerID" placeholder="PartnerID/Group Number" id="PartnerID">
-      <p>API Key/Private Key: </p><input type="text" name="APIKey" placeholder="APIKey" id="APIKey">
+      <p>Authentication Key: </p><input type="text" name="authentication" placeholder="API or Login Key" id="auth-key">
+      <select id="auth-key-select">
+        <option value="api-key">API Key</option>
+        <option value="login-key">Login Key</option>
+      </select>
       <p>Partner User ID: </p><input type="text" name="PartnerUserID" placeholder="PartnerUserID" id="PartnerUserID">
       <p>Visitor ID: </p><input type="text" name="visitorID" placeholder="Visitor ID" id="visitorID">
       <p>Timeout (seconds): </p> <input type="text" name="Timeout" placeholder="Timeout" id="Timeout" value="3600"><br>

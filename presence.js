@@ -16,7 +16,7 @@ function GenerateLoginKey() {
   var version = 1;
   var partnerid = $$("PartnerID").value;
   var partneruserid = $$("PartnerUserID").value;
-  var apikey = $$("APIKey").value;
+  var apikey = $$("auth-key").value;
   var timeout = parseInt($$("Timeout").value, 10);
 
   var expires = UTCTimestamp() + timeout;
@@ -29,6 +29,14 @@ function GenerateLoginKey() {
   var server = "https://www.glance.net";
   console.log("the login key is " + loginkey);
   return loginkey;
+}
+
+function generateAuthenticationKey(){
+  if ($$("auth-key-select").value === "login-key"){
+    return $$("auth-key").value
+  } else {
+    return GenerateLoginKey()
+  }
 }
 
 function initializePresence() {
@@ -116,7 +124,7 @@ function initializePresence() {
     credentials: {
       partnerid: $$("PartnerID").value,
       partneruserid: $$("PartnerUserID").value,
-      loginkey: GenerateLoginKey()
+      loginkey: generateAuthenticationKey()
     },
     groupid: $$("PartnerID").value,
     duration: 120,
@@ -130,7 +138,7 @@ function initializePresence() {
     var visitorid = visitorid;
     var partnerid = $$("PartnerID").value;
     var partneruserid = $$("PartnerUserID").value;
-    var loginkey = GenerateLoginKey();
+    var loginkey = generateAuthenticationKey();
 
     document.getElementById("cobrowsebutton").style.display = "block";
     document.getElementById("waitingforcustomer").style.display = "none";

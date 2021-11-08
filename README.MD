@@ -8,6 +8,10 @@ Dev version deployed here: [Presence Dev Test Page](https://glancepro.online/dev
 
 ## Release Notes
 
+### November 8, 2021
+
+- Added the option to authenticate via the user entering a login key instead of the group's api key.
+
 ### October 31, 2021
 
 - There are now separate buttons for the agent to join with presence versus a session key
