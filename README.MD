@@ -8,6 +8,10 @@ Dev version deployed here: [Presence Dev Test Page](https://glancepro.online/dev
 
 ## Release Notes
 
+### January 30, 2022
+
+- Group ID, Partner User ID, and Visitor ID settings are now persistently displayed after the user clicks `Submit`.
+
 ### November 14, 2021
 
 - Settings are now saved in the browser's local storage and will persist across page refreshes and browser restarts.
@@ -30,5 +34,5 @@ Dev version deployed here: [Presence Dev Test Page](https://glancepro.online/dev
     - If the visitor declines the terms.
     - Upon receiving the `onvisitorsessionend` event.
     - If the agent cancels the presence invitation by clicking the `presencecancel` button.
-- Information about the visitor (URL, browser, OS) is only displayed when available.  Otherwise, those fields are hidden.
+- Information about the visitor (URL, browser, OS) is only displayed when available. Otherwise, those fields are hidden.
 - Cleaned up the comments throughout the code.
