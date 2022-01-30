@@ -31,11 +31,11 @@ function GenerateLoginKey() {
   return loginkey;
 }
 
-function generateAuthenticationKey(){
-  if ($$("auth-key-select").value === "login-key"){
-    return $$("auth-key").value
+function generateAuthenticationKey() {
+  if ($$("auth-key-select").value === "login-key") {
+    return $$("auth-key").value;
   } else {
-    return GenerateLoginKey()
+    return GenerateLoginKey();
   }
 }
 
@@ -44,11 +44,11 @@ function initializePresence() {
     var visitorid = $$("visitorID").value;
     // Construct a new Presence Agent object
     presenceagent = new GLANCE.Presence.Agent({
-      visitorid: visitorid
+      visitorid: visitorid,
     });
 
     // Setup event handlers
-    presenceagent.onvisitorconn = function(e) {
+    presenceagent.onvisitorconn = function (e) {
       // visitor is connecting via websocket and can be signaled
       console.log("in onvisitorconn and e is ", e);
       if (e.connected) {
@@ -68,7 +68,7 @@ function initializePresence() {
       }
     };
 
-    presenceagent.onpresence = function(e) {
+    presenceagent.onpresence = function (e) {
       // Visitor posted new presence information
       // Display presence information, e.g. new e.url
       console.log("in onpresence and e is ", e);
@@ -79,18 +79,18 @@ function initializePresence() {
     };
 
     // Listen for when the showTerms is displayed on the visitor side
-    presenceagent.onterms = function(e) {
+    presenceagent.onterms = function (e) {
       console.log("in onterms and e is ", e);
       if (e.status === "accepted") {
         // Not currently doing anything if the visitor accepts the terms and conditions
-        console.log("The visitor accepted the terms and conditions.")
+        console.log("The visitor accepted the terms and conditions.");
       }
       // If the visitor declines the session, show an alert for the agent.
       if (e.status === "declined") {
         console.log("visitor declined session");
         alert("Visitor declined session... =(");
         // if the visitor declines the terms and conditions
-        presenceCancelled()
+        presenceCancelled();
       }
     };
     // Connect the agent so it can receive the above events
@@ -98,7 +98,7 @@ function initializePresence() {
 
     // Lookup the visitor to see if he is already present
     presenceagent.lookupVisitor({
-      onsuccess: function(visitordata) {
+      onsuccess: function (visitordata) {
         console.log(
           "lookupVisitor successful and visitordata is ",
           visitordata
@@ -106,32 +106,31 @@ function initializePresence() {
         document.getElementById("visitorplatform").innerHTML =
           visitordata.platform;
       },
-      onfail: function(reason) {
+      onfail: function (reason) {
         console.log("lookupVisitor not successful and reason is ", reason);
-      }
+      },
     });
 
-    presenceagent.onvisitorsessionend = function() {
-      console.log("In onvisitorsessionend.")
+    presenceagent.onvisitorsessionend = function () {
+      console.log("In onvisitorsessionend.");
       // Once the session ends, clear the event listener for session start.
-      presenceagent.onvisitorsessionstart = null
-    }
+      presenceagent.onvisitorsessionstart = null;
+    };
   }
-
 
   GLANCE.Authorization.authorize({
     service: "presence",
     credentials: {
       partnerid: $$("PartnerID").value,
       partneruserid: $$("PartnerUserID").value,
-      loginkey: generateAuthenticationKey()
+      loginkey: generateAuthenticationKey(),
     },
     groupid: $$("PartnerID").value,
     duration: 120,
     onsuccess: showpresence,
-    onfail: function(reason) {
+    onfail: function (reason) {
       console.log("authorization failed and the reason is ", reason);
-    }
+    },
   });
 
   function launchSession(visitorid) {
@@ -177,7 +176,7 @@ function initializePresence() {
 
   function showTerms(visitordata) {
     // Add the event listener for the session start and launch the session if you hear it.
-    presenceagent.onvisitorsessionstart = function() {
+    presenceagent.onvisitorsessionstart = function () {
       console.log("received session start event");
       var visitorid = $$("visitorID").value;
       launchSession(visitorid);
@@ -186,8 +185,8 @@ function initializePresence() {
     presenceagent.invokeVisitor({
       func: "GLANCE.Cobrowse.Visitor.showTerms",
       args: {
-        sessionKey: $$("visitorID").value
-      }
+        sessionKey: $$("visitorID").value,
+      },
     });
   }
 
@@ -195,7 +194,7 @@ function initializePresence() {
     console.log("the cobrowse button was clicked!");
     // Need to check if the visitor is connected.  If yes, then show the terms and conditions
     presenceagent.lookupVisitor({
-      onsuccess: function(visitordata) {
+      onsuccess: function (visitordata) {
         console.log(
           "within cobrowseButtonClicked lookupVisitor successful and visitordata is ",
           visitordata
@@ -205,24 +204,23 @@ function initializePresence() {
           showTerms(visitordata);
           document.getElementById("cobrowsebutton").style.display = "none";
           document.getElementById("waitingforcustomer").style.display = "block";
-
         }
         if (!visitordata.visitorid) {
           // If the visitor is not present, alert the user.
-          alert("Visitor not present. Try joining with the session key.")
+          alert("Visitor not present. Try joining with the session key.");
         }
       },
-      onfail: function(reason) {
+      onfail: function (reason) {
         console.log("lookupVisitor not successful and reason is ", reason);
-        alert("Lookup failed.")
-      }
+        alert("Lookup failed.");
+      },
     });
   }
 
   function presenceCancelled() {
     console.log("presence is cancelled");
     // Remove the event listener
-    presenceagent.onvisitorsessionstart = null
+    presenceagent.onvisitorsessionstart = null;
     // Reset the UI
     document.getElementById("cobrowsebutton").style.display = "block";
     document.getElementById("waitingforcustomer").style.display = "none";
@@ -234,7 +232,7 @@ function initializePresence() {
 
   document
     .getElementById("join-with-key")
-    .addEventListener("click", function() {
+    .addEventListener("click", function () {
       console.log("You clicked the Join button and the event is ", event);
       var key = document.getElementById("session-key").value;
       launchSession(key);
@@ -245,7 +243,20 @@ function initializePresence() {
     .addEventListener("click", presenceCancelled);
 }
 
-document.getElementById("SubmitButton").addEventListener("click", function() {
+function showConfigs() {
+  document.getElementById("configs").style.display = "block";
+  document.getElementById(
+    "groupid-setting"
+  ).innerHTML = document.getElementById("PartnerID").value;
+  document.getElementById("puid-setting").innerHTML = document.getElementById(
+    "PartnerUserID"
+  ).value;
+  document.getElementById(
+    "visitorid-setting"
+  ).innerHTML = document.getElementById("visitorID").value;
+}
+
+document.getElementById("SubmitButton").addEventListener("click", function () {
   console.log("Submit button clicked ", event);
   // Adding the agent side presence script to the page after the fact to allow for
   // Group ID to be set by user input
@@ -262,7 +273,8 @@ document.getElementById("SubmitButton").addEventListener("click", function() {
   document.getElementById("login-key").style.display = "none";
   document.getElementById("presence-button").style.display = "block";
   document.getElementById("session-key-join").style.display = "block";
-  document.getElementById("glance-cobrowse").onload = event => {
+  document.getElementById("glance-cobrowse").onload = (event) => {
     initializePresence();
   };
+  showConfigs();
 });

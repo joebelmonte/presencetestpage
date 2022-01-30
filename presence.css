@@ -77,6 +77,17 @@ table {
   }
 }
 
-#presence-button, #vistor-info, #session-key-join, #waitingforcustomer {
+#presence-button,
+#vistor-info,
+#session-key-join,
+#waitingforcustomer {
   display: none;
+}
+
+#configs {
+  display: none;
+}
+
+#visitorid-setting {
+  font-weight: bold;
 }
