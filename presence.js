@@ -12,6 +12,19 @@ function UTCValidUntil(s) {
   return expires.toUTCString();
 }
 
+function getDuration() {
+  // Convert the input (seconds) into minutes.
+  var duration = $$("Timeout").value / 60;
+  // Max duration for the auth token is 120 minutes
+  if (duration > 120) {
+    return 120;
+  } else {
+    return duration;
+  }
+}
+
+var loginkey = localStorage.getItem("authkey");
+
 function GenerateLoginKey() {
   var version = 1;
   var partnerid = $$("PartnerID").value;
@@ -24,10 +37,13 @@ function GenerateLoginKey() {
   var keystring = partnerid + partneruserid + version + expires;
   var hmac = CryptoJS.HmacSHA256(keystring, apikey);
   var hmacb64 = hmac.toString(CryptoJS.enc.Base64);
-  var loginkey = "$" + version + "$" + expires + "$" + hmacb64.substr(0, 43);
 
-  var server = "https://www.glance.net";
+  // set the loginkey
+  loginkey = "$" + version + "$" + expires + "$" + hmacb64.substr(0, 43);
+
+  // var server = "https://www.glance.net";
   console.log("the login key is " + loginkey);
+
   return loginkey;
 }
 
@@ -126,18 +142,25 @@ function initializePresence() {
       loginkey: generateAuthenticationKey(),
     },
     groupid: $$("PartnerID").value,
-    duration: 120,
-    onsuccess: showpresence,
+    duration: getDuration(),
+    onsuccess: function () {
+      showpresence();
+      // Put the login key into local storage for use if the user refreshes the page
+      localStorage.setItem("authKeySelect", "login-key");
+      localStorage.setItem("authkey", loginkey);
+    },
     onfail: function (reason) {
+      alert("Authorization failed.");
       console.log("authorization failed and the reason is ", reason);
     },
   });
 
   function launchSession(visitorid) {
+    // Remove start session event listener
+    presenceagent.onvisitorsessionstart = null;
     var visitorid = visitorid;
     var partnerid = $$("PartnerID").value;
     var partneruserid = $$("PartnerUserID").value;
-    var loginkey = generateAuthenticationKey();
 
     document.getElementById("cobrowsebutton").style.display = "block";
     document.getElementById("waitingforcustomer").style.display = "none";
@@ -256,10 +279,7 @@ function showConfigs() {
   ).innerHTML = document.getElementById("visitorID").value;
 }
 
-document.getElementById("SubmitButton").addEventListener("click", function () {
-  console.log("Submit button clicked ", event);
-  // Adding the agent side presence script to the page after the fact to allow for
-  // Group ID to be set by user input
+var addGlanceScriptTag = function () {
   var groupid = document.getElementById("PartnerID").value;
   var presenceAgentTag = document.createElement("script");
   var url =
@@ -270,11 +290,21 @@ document.getElementById("SubmitButton").addEventListener("click", function () {
   presenceAgentTag.setAttribute("data-groupid", groupid);
   presenceAgentTag.setAttribute("id", "glance-cobrowse");
   document.getElementsByTagName("head")[0].appendChild(presenceAgentTag);
+};
+
+document.getElementById("SubmitButton").addEventListener("click", function () {
+  console.log("Submit button clicked.");
+  // Adding the agent side presence script to the page after the fact to allow for
+  // Group ID to be set by user input
+  addGlanceScriptTag();
+  // Show and hide some html elements
   document.getElementById("login-key").style.display = "none";
   document.getElementById("presence-button").style.display = "block";
   document.getElementById("session-key-join").style.display = "block";
+  showConfigs();
+
+  // Kick off the presence flow once the script tag loads
   document.getElementById("glance-cobrowse").onload = (event) => {
     initializePresence();
   };
-  showConfigs();
 });
