@@ -35,46 +35,56 @@
 
       <div id="glanceUI">
         <div id="login-key">
-          <p>PartnerID/Group Number:</p>
-          <input
-            type="text"
-            name="PartnerID"
-            placeholder="PartnerID/Group Number"
-            id="PartnerID"
-          />
-          <p>Authentication Key:</p>
-          <input
-            type="text"
-            name="authentication"
-            placeholder="API or Login Key"
-            id="auth-key"
-          />
-          <select id="auth-key-select">
-            <option value="api-key">API Key</option>
-            <option value="login-key">Login Key</option>
-          </select>
-          <p>Partner User ID:</p>
-          <input
-            type="text"
-            name="PartnerUserID"
-            placeholder="PartnerUserID"
-            id="PartnerUserID"
-          />
-          <p>Visitor ID:</p>
-          <input
-            type="text"
-            name="visitorID"
-            placeholder="Visitor ID"
-            id="visitorID"
-          />
-          <p>Timeout (seconds):</p>
-          <input
-            type="text"
-            name="Timeout"
-            placeholder="Timeout"
-            id="Timeout"
-            value="3600"
-          /><br />
+          <div class="user-input">
+            <p>PartnerID/Group Number:</p>
+            <input
+              type="text"
+              name="PartnerID"
+              placeholder="PartnerID/Group Number"
+              id="PartnerID"
+            />
+          </div>
+          <div class="user-input">
+            <p>Authentication:</p>
+            <input
+              type="text"
+              name="authentication"
+              placeholder="API or Login Key"
+              id="auth-key"
+            />
+            <select id="auth-key-select">
+              <option value="api-key">API Key</option>
+              <option value="login-key">Login Key</option>
+            </select>
+            <div id="timeout">
+              <p>Timeout, in seconds. Max is 86,400 (1 day):</p>
+              <input
+                type="text"
+                name="Timeout"
+                placeholder="Timeout"
+                id="Timeout"
+                value="3600"
+              />
+            </div>
+          </div>
+          <div class="user-input">
+            <p>Partner User ID:</p>
+            <input
+              type="text"
+              name="PartnerUserID"
+              placeholder="PartnerUserID"
+              id="PartnerUserID"
+            />
+          </div>
+          <div class="user-input">
+            <p>Visitor ID:</p>
+            <input
+              type="text"
+              name="visitorID"
+              placeholder="Visitor ID"
+              id="visitorID"
+            />
+          </div>
           <button id="SubmitButton">Submit</button>
         </div>
         <div id="presence-button">

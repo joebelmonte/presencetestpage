@@ -12,12 +12,16 @@ function UTCValidUntil(s) {
   return expires.toUTCString();
 }
 
-function getDuration() {
+function getDuration(max, units) {
   // Convert the input (seconds) into minutes.
-  var duration = $$("Timeout").value / 60;
+  var duration = Math.round($$("Timeout").value);
+
+  duration = units === "minutes" ? duration / 60 : duration;
   // Max duration for the auth token is 120 minutes
-  if (duration > 120) {
-    return 120;
+  if (duration > max) {
+    return max;
+  } else if (duration < 1) {
+    return 1;
   } else {
     return duration;
   }
@@ -30,7 +34,7 @@ function GenerateLoginKey() {
   var partnerid = $$("PartnerID").value;
   var partneruserid = $$("PartnerUserID").value;
   var apikey = $$("auth-key").value;
-  var timeout = parseInt($$("Timeout").value, 10);
+  var timeout = getDuration(86400, "seconds");
 
   var expires = UTCTimestamp() + timeout;
   var validuntil = UTCValidUntil(expires);
@@ -70,17 +74,17 @@ function initializePresence() {
       if (e.connected) {
         // Toggle the color of the button to blue/orange when visitor logs in or out
         // Show information about the visitor's browser/os
-        document.getElementById("vistor-info").style.display = "block";
-        document.getElementById("cobrowsebutton").style.background = "#F86717";
+        $$("vistor-info").style.display = "block";
+        $$("cobrowsebutton").style.background = "#F86717";
       }
       if (!e.connected) {
         // Visitor connection drops to turn the button blue and remove info about visitor browser/url
-        document.getElementById("cobrowsebutton").style.background = "#33aae1";
-        document.getElementById("visitorurl").innerHTML = "";
-        document.getElementById("visitorbrowser").innerHTML = "";
-        document.getElementById("visitorbrowserversion").innerHTML = "";
-        document.getElementById("visitorplatform").innerHTML = "";
-        document.getElementById("vistor-info").style.display = "none";
+        $$("cobrowsebutton").style.background = "#33aae1";
+        $$("visitorurl").innerHTML = "";
+        $$("visitorbrowser").innerHTML = "";
+        $$("visitorbrowserversion").innerHTML = "";
+        $$("visitorplatform").innerHTML = "";
+        $$("vistor-info").style.display = "none";
       }
     };
 
@@ -88,10 +92,10 @@ function initializePresence() {
       // Visitor posted new presence information
       // Display presence information, e.g. new e.url
       console.log("in onpresence and e is ", e);
-      document.getElementById("visitorurl").innerHTML = e.url;
-      document.getElementById("visitorbrowser").innerHTML = e.browser;
-      document.getElementById("visitorbrowserversion").innerHTML = e.browserver;
-      document.getElementById("visitorplatform").innerHTML = e.platform;
+      $$("visitorurl").innerHTML = e.url;
+      $$("visitorbrowser").innerHTML = e.browser;
+      $$("visitorbrowserversion").innerHTML = e.browserver;
+      $$("visitorplatform").innerHTML = e.platform;
     };
 
     // Listen for when the showTerms is displayed on the visitor side
@@ -142,7 +146,7 @@ function initializePresence() {
       loginkey: generateAuthenticationKey(),
     },
     groupid: $$("PartnerID").value,
-    duration: getDuration(),
+    duration: getDuration(120, "minutes"),
     onsuccess: function () {
       showpresence();
       // Put the login key into local storage for use if the user refreshes the page
