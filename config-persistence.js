@@ -5,7 +5,7 @@ function $$(id) {
 function storeSettings() {
   var settings = [];
 
-  // Get values
+  // Set values
   settings.push({ partnerID: $$("PartnerID").value });
   settings.push({ puid: $$("PartnerUserID").value });
   settings.push({ visitorID: $$("visitorID").value });
@@ -45,7 +45,7 @@ function setSettings() {
   }
 
   if (localStorage.getItem("authKeySelect") === "login-key") {
-    $$("auth-key").value = "";
+    // $$("auth-key").value = "";
     $$("timeout").style.display = "none";
   }
 

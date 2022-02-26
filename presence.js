@@ -14,9 +14,10 @@ function UTCValidUntil(s) {
 
 function getDuration(max, units) {
   // Convert the input (seconds) into minutes.
-  var duration = Math.round($$("Timeout").value);
+  var duration = $$("Timeout").value;
 
-  duration = units === "minutes" ? duration / 60 : duration;
+  duration =
+    units === "minutes" ? Math.round(duration / 60) : Math.round(duration);
   // Max duration for the auth token is 120 minutes
   if (duration > max) {
     return max;
