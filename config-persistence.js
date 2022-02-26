@@ -44,11 +44,8 @@ function setSettings() {
     $$("auth-key-select").value = "api-key";
   }
 
-  if (localStorage.getItem("authKeySelect") === "api-key") {
+  if (localStorage.getItem("authKeySelect") === "login-key") {
     $$("auth-key").value = "";
-    $$("timeout").style.display = "block";
-  } else {
-    $$("auth-key").value = localStorage.getItem("authkey");
     $$("timeout").style.display = "none";
   }
 

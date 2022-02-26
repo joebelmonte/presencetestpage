@@ -8,6 +8,14 @@ Dev version deployed here: [Presence Dev Test Page](https://glancepro.online/dev
 
 ## Release Notes
 
+## February 15, 2022
+
+- Improvements to authentication
+  - When authenticating with an `API Key` initially, the page will automatically store and use the subsequently generated login key for authentication after page refresh. Since the login key can be stored in local storage, this eliminates the need for the user to manually paste the API Key on each page load.
+  - The `duration` field only shows up when authenticating with the Api Key. If authenticating with the loginkey, the duration is determined by the expiration value built into the login key.
+- Removed the `onvisitorsessionstart` when the agent joins the session.
+  - This is to guard against a scenario where the agent joins a presence-initiated session, the visitor navigates to a non-presence page and ends the session (resulting in the `onvisitorsessionend` event not firing), then navigates back to presence-enabled page and starts a random key session. Previous this sequence would result in the page automatically attempting to join a session with the visitor ID as the key because on `onvisitorsessionstart` event was added and never removed.
+
 ### January 30, 2022
 
 - Group ID, Partner User ID, and Visitor ID settings are now persistently displayed after the user clicks `Submit`.
@@ -34,5 +42,6 @@ Dev version deployed here: [Presence Dev Test Page](https://glancepro.online/dev
     - If the visitor declines the terms.
     - Upon receiving the `onvisitorsessionend` event.
     - If the agent cancels the presence invitation by clicking the `presencecancel` button.
+    - Note: the Feb 2022 release also removed the listener as the agent attempts to join the session.
 - Information about the visitor (URL, browser, OS) is only displayed when available. Otherwise, those fields are hidden.
 - Cleaned up the comments throughout the code.
