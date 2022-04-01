@@ -91,3 +91,7 @@ table {
 #visitorid-setting {
   font-weight: bold;
 }
+
+#auth-key {
+  width: 500px;
+}

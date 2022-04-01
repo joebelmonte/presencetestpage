@@ -49,6 +49,10 @@ function GenerateLoginKey() {
   // var server = "https://www.glance.net";
   console.log("the login key is " + loginkey);
 
+  // Put the login key into local storage for use if the user refreshes the page
+  localStorage.setItem("authKeySelect", "login-key");
+  localStorage.setItem("authkey", loginkey);
+
   return loginkey;
 }
 
@@ -150,9 +154,6 @@ function initializePresence() {
     duration: getDuration(120, "minutes"),
     onsuccess: function () {
       showpresence();
-      // Put the login key into local storage for use if the user refreshes the page
-      localStorage.setItem("authKeySelect", "login-key");
-      localStorage.setItem("authkey", loginkey);
     },
     onfail: function (reason) {
       alert("Authorization failed.");
