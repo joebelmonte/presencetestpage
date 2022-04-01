@@ -8,6 +8,12 @@ Dev version deployed here: [Presence Dev Test Page](https://glancepro.online/dev
 
 ## Release Notes
 
+## March 31, 2022
+
+- Fixed bug with authentication.
+  - There was a bug where the `onsuccess` method of `GLANCE.Authorization.authorize` was adding older login key values back into local storage. This sometimes caused authentication problems on subsequent page loads.
+- Increased the width of the authentication input field so you can see an entire login key value.
+
 ## February 26, 2022
 
 - Improvements to authentication
