@@ -2,7 +2,7 @@
   "name": "presence-test-page",
   "version": "1.0.0",
   "dependencies": {
-    "async": "^1.5.2",
+    "async": "^3.2.2",
     "atom-select-list": "^0.7.2",
     "balanced-match": "^1.0.0",
     "brace-expansion": "^1.1.11",
