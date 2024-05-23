@@ -6,15 +6,23 @@ Production deployed here: [Presence Test Page](https://glancepro.online/presence
 
 Dev version deployed here: [Presence Dev Test Page](https://glancepro.online/dev/presence-agent/presence.html)
 
+## Known Issues
+
+- Cannot initiate sessions when the visitor is on a mobile device (CS-954)
+
 ## Release Notes
 
-## March 31, 2022
+### May 23, 2024
+
+- Improved compatibility with load balanced presence servers.
+
+### March 31, 2022
 
 - Fixed bug with authentication.
   - There was a bug where the `onsuccess` method of `GLANCE.Authorization.authorize` was adding older login key values back into local storage. This sometimes caused authentication problems on subsequent page loads.
 - Increased the width of the authentication input field so you can see an entire login key value.
 
-## February 26, 2022
+### February 26, 2022
 
 - Improvements to authentication
   - When authenticating with an `API Key`, the page will automatically store and use the subsequently generated login key for authentication after page refresh. Since the login key can be stored in local storage, this eliminates the need for the user to manually paste the API Key on each page load.
