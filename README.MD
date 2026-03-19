@@ -6,11 +6,11 @@ Production deployed here: [Presence Test Page](https://glancepro.online/presence
 
 Dev version deployed here: [Presence Dev Test Page](https://glancepro.online/dev/presence-agent/presence.html)
 
-## Known Issues
-
-- Cannot initiate sessions when the visitor is on a mobile device (CS-954)
-
 ## Release Notes
+
+### March 19, 2026
+
+- Moved from glancepro.online to glancedev1 for hosting.
 
 ### May 23, 2024
 
