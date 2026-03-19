@@ -2,9 +2,9 @@
 
 ## By Joe Belmonte
 
-Production deployed here: [Presence Test Page](https://glancepro.online/presence.html)
+Production deployed here: [Presence Test Page](https://www.glancedev1.com/joeb/presenceagentapi/presence.html)
 
-Dev version deployed here: [Presence Dev Test Page](https://glancepro.online/dev/presence-agent/presence.html)
+Dev version deployed here: [Presence Dev Test Page](https://www.glancedev1.com/joeb/dev/presenceagentapi/presence.html)
 
 ## Release Notes
 
